@@ -2,6 +2,10 @@
 name = "arigato"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+authors = ["Paul Tagliamonte <paultag@gmail.com>"]
+repository = "https://github.com/paultag/arigato"
+description = "barebones Rust framework for creating and serving a 9p filesystem"
 
 [dependencies]
 tokio = { version = "1", default-features = false, features = ["io-util", "tracing", "sync", "net", "rt"] }
