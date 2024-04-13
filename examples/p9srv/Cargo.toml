@@ -1,0 +1,10 @@
+[package]
+name = "p9srv"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+arigato = { path = "../../" }
+tokio = { version = "1", features = ["full"] }
+tracing = "0"
+tracing-subscriber = "0"

@@ -1,0 +1,8 @@
+[package]
+name = "arigato"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1", default-features = false, features = ["io-util", "tracing", "sync", "net", "rt"] }
+tracing = "0"
