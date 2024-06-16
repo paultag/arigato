@@ -216,7 +216,11 @@ where
                 Self::Stat(tag, Stat::hydrate(&mut b)?)
             }
             TYPE_RWSTAT => Self::WStat(tag),
-            _ => Self::Unknown(ty, tag, b.remaining_slice().into()),
+            // _ => Self::Unknown(ty, tag, b.remaining_slice().into()),
+            _ => {
+                let v = Vec::from(&b.get_ref().as_ref()[3..]);
+                Self::Unknown(ty, tag, v.into())
+            }
         })
     }
 }

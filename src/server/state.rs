@@ -93,10 +93,13 @@ where
             file: file,
             of: None,
         };
-        match self.handles.try_insert(fid, fh) {
-            Ok(fh) => Ok(fh),
-            Err(_) => Err(FileHandlesError::FidAlreadyExists),
+
+        if self.handles.get(&fid).is_some() {
+            return Err(FileHandlesError::FidAlreadyExists);
         }
+        self.handles.insert(fid, fh);
+
+        Ok(self.handles.get(&fid).unwrap())
     }
 
     ///
@@ -154,10 +157,11 @@ impl Requests {
 
     ///
     pub fn insert(&mut self, tag: Tag, t: T) -> Result<(), RequestsError> {
-        match self.requests.try_insert(tag, Request { t }) {
-            Ok(_) => Ok(()),
-            Err(_) => Err(RequestsError::TagAlreadyExists),
+        if self.requests.get(&tag).is_some() {
+            return Err(RequestsError::TagAlreadyExists);
         }
+        self.requests.insert(tag, Request { t });
+        Ok(())
     }
 
     ///

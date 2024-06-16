@@ -259,7 +259,11 @@ where
                 let mut b = Cursor::new(buf);
                 Self::WStat(tag, fid, Stat::hydrate(&mut b)?)
             }
-            _ => Self::Unknown(ty, tag, b.remaining_slice().into()),
+            // _ => Self::Unknown(ty, tag, b.remaining_slice().into()),
+            _ => {
+                let v = Vec::from(&b.get_ref().as_ref()[3..]);
+                Self::Unknown(ty, tag, v.into())
+            }
         })
     }
 }

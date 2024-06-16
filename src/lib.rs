@@ -19,10 +19,6 @@
 // THE SOFTWARE. }}}
 
 #![deny(missing_docs)]
-#![feature(cursor_remaining)]
-#![feature(map_try_insert)]
-#![feature(io_error_more)]
-#![feature(trait_alias)]
 
 //! Arigato! Plan 9! In Rust!
 //!
