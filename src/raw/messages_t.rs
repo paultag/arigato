@@ -262,7 +262,7 @@ where
             // _ => Self::Unknown(ty, tag, b.remaining_slice().into()),
             _ => {
                 let v = Vec::from(&b.get_ref().as_ref()[3..]);
-                Self::Unknown(ty, tag, v.into())
+                Self::Unknown(ty, tag, v)
             }
         })
     }

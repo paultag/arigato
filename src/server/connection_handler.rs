@@ -128,7 +128,7 @@ where
             };
 
             let mctx = MessageContext::<FilesystemT> {
-                peer: peer.clone(),
+                peer,
                 requests: &mut requests,
                 handles: &mut handles,
                 filesystems: filesystems.clone(),
@@ -138,7 +138,7 @@ where
                 Ok(r) => r,
                 Err(err) => match err {
                     ServerError::FileError(FileError(errno, desc)) => {
-                        R::Error(tag, desc, errno as u32)
+                        R::Error(tag, desc, errno)
                     }
                     _ => R::Error(tag, format!("{:?}", err), 0xFFFFFFFF),
                 },

@@ -129,7 +129,7 @@ impl StatBuilder {
         StatBuilder {
             ty: 0,
             dev: 0,
-            qid: qid,
+            qid,
             mode: 0,
             atime: 0,
             mtime: 0,

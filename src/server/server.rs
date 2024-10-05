@@ -83,7 +83,7 @@ where
                     let rw = RWriter::new(Box::pin(write), self.msize);
                     let ctx = Context {
                         // join_set: JoinSet::new(),
-                        peer: addr.clone(),
+                        peer: addr,
                         version: "9P2000.u".parse().unwrap(),
                         msize: self.msize,
                         handles: FileHandles::<FilesystemT::File>::new(),
@@ -98,11 +98,8 @@ where
                             tracing::debug!("task started [{addr}]");
                             let tr = tr;
                             let rw = rw;
-                            match connection_handler(ctx, rw, tr).await {
-                                Err(e) => {
-                                    tracing::warn!("task [{addr}] failed with {e:?}");
-                                }
-                                _ => {}
+                            if let Err(e) = connection_handler(ctx, rw, tr).await {
+                                tracing::warn!("task [{addr}] failed with {e:?}");
                             }
                         });
                 }

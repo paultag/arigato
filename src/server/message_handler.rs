@@ -71,14 +71,11 @@ where
         }
         T::Flush(tag, oldtag) => {
             tracing::debug!("flush request (peer={peer}, tag={tag}, oldtag={oldtag})");
-            match requests.remove(oldtag) {
-                Ok(req) => {
-                    tracing::debug!(
-                        "  flush (peer={peer}, tag={tag}, oldtag={oldtag}, t={:?})",
-                        req.t
-                    );
-                }
-                _ => {}
+            if let Ok(req) = requests.remove(oldtag) {
+                tracing::debug!(
+                    "  flush (peer={peer}, tag={tag}, oldtag={oldtag}, t={:?})",
+                    req.t
+                );
             }
 
             Ok(R::Flush(tag))

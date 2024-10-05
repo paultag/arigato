@@ -69,6 +69,16 @@ pub enum FileHandlesError {
     NoSuchFid,
 }
 
+impl<FileT> Default for FileHandles<FileT>
+where
+    FileT: File,
+    FileT: Send,
+ {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<FileT> FileHandles<FileT>
 where
     FileT: File,
@@ -90,7 +100,7 @@ where
     ) -> Result<&FileHandle<FileT>, FileHandlesError> {
         let fh = FileHandle {
             session,
-            file: file,
+            file,
             of: None,
         };
 
@@ -145,6 +155,12 @@ pub enum RequestsError {
 ///
 pub struct Requests {
     requests: HashMap<Tag, Request>,
+}
+
+impl Default for Requests {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl Requests {
