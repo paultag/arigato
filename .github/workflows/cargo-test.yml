@@ -27,3 +27,5 @@ jobs:
         shell: bash
         run: |
           cargo test
+        env:
+          RUSTFLAGS: "-D warnings --cfg tokio_unstable"

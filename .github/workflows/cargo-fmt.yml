@@ -32,4 +32,6 @@ jobs:
       - name: Run cargo fmt
         run: |
           cargo fmt -- --check
+        env:
+          RUSTFLAGS: "-D warnings --cfg tokio_unstable"
         shell: bash

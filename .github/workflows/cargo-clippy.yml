@@ -29,5 +29,7 @@ jobs:
           components: clippy
       - name: Run clippy
         run: cargo clippy --all-features --tests -- -D warnings
+        env:
+          RUSTFLAGS: "-D warnings --cfg tokio_unstable"
       - name: Cargo check --release
         run: cargo check --release
