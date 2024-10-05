@@ -24,7 +24,8 @@ use crate::{
 };
 use std::collections::HashMap;
 
-///
+/// Session being requested. This contains internal state about the connecting
+/// user and filesystem requested.
 #[derive(Debug, Clone)]
 pub struct Session {
     pub(super) uname: String,
@@ -32,13 +33,14 @@ pub struct Session {
 }
 
 impl Session {
-    ///
+    /// Create a new Session.
     pub fn new(uname: String, aname: String) -> Self {
         Self { uname, aname }
     }
 }
 
-///
+/// Handle to an open File of type FileT -- containing some additional
+/// state if it exists (attached Session, any OpenFile type, etc).
 #[derive(Clone)]
 pub struct FileHandle<FileT>
 where
@@ -50,7 +52,7 @@ where
     pub(super) of: Option<FileT::OpenFile>,
 }
 
-///
+/// Map of all open Files (wrapped in their FileHandle) by file descriptor.
 pub struct FileHandles<FileT>
 where
     FileT: File,
@@ -59,13 +61,14 @@ where
     handles: HashMap<Fid, FileHandle<FileT>>,
 }
 
-///
+/// Errors which the FileHandles manager may return.
 #[derive(Debug)]
 pub enum FileHandlesError {
-    ///
+    /// File Descriptor already exists.
     FidAlreadyExists,
 
-    ///
+    /// No such file descriptor has been defined yet, or has been
+    /// clunked.
     NoSuchFid,
 }
 
@@ -84,14 +87,15 @@ where
     FileT: File,
     FileT: Send,
 {
-    ///
+    /// Create a new FileHandles wrapper.
     pub fn new() -> Self {
         Self {
             handles: HashMap::new(),
         }
     }
 
-    ///
+    /// Add a new FileT, bound to the provided Session known by the
+    /// provided file descriptor.
     pub fn insert(
         &mut self,
         fid: Fid,
@@ -112,7 +116,7 @@ where
         Ok(self.handles.get(&fid).unwrap())
     }
 
-    ///
+    /// Remove the FileT, known by the provided file descriptor.
     pub fn remove(&mut self, fid: Fid) -> Result<FileHandle<FileT>, FileHandlesError> {
         match self.handles.remove(&fid) {
             Some(fh) => Ok(fh),
@@ -120,7 +124,7 @@ where
         }
     }
 
-    ///
+    /// Get the FileT, known by the provided file descriptor.
     pub fn get(&self, fid: Fid) -> Result<&FileHandle<FileT>, FileHandlesError> {
         match self.handles.get(&fid) {
             Some(fh) => Ok(fh),
@@ -128,7 +132,7 @@ where
         }
     }
 
-    ///
+    /// Get the FileT, known by the provided file descriptor.
     pub fn get_mut(&mut self, fid: Fid) -> Result<&mut FileHandle<FileT>, FileHandlesError> {
         match self.handles.get_mut(&fid) {
             Some(fh) => Ok(fh),
