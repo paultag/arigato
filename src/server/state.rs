@@ -73,7 +73,7 @@ impl<FileT> Default for FileHandles<FileT>
 where
     FileT: File,
     FileT: Send,
- {
+{
     fn default() -> Self {
         Self::new()
     }

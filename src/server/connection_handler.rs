@@ -137,9 +137,7 @@ where
             let reply = match message_handler(mctx, t).await {
                 Ok(r) => r,
                 Err(err) => match err {
-                    ServerError::FileError(FileError(errno, desc)) => {
-                        R::Error(tag, desc, errno)
-                    }
+                    ServerError::FileError(FileError(errno, desc)) => R::Error(tag, desc, errno),
                     _ => R::Error(tag, format!("{:?}", err), 0xFFFFFFFF),
                 },
             };

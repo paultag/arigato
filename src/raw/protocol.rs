@@ -328,7 +328,8 @@ mod tests {
 
     #[test]
     fn test_filetype() {
-        for (ft, check) in [(FileType::File, 0u8),
+        for (ft, check) in [
+            (FileType::File, 0u8),
             (FileType::Dir, 0x80),
             (FileType::Append, 0x40),
             (FileType::Excl, 0x20),
@@ -339,11 +340,13 @@ mod tests {
             // special files
             (FileType::Device, 0x00),
             (FileType::NamedPipe, 0x00),
-            (FileType::Socket, 0x00)] {
+            (FileType::Socket, 0x00),
+        ] {
             assert_eq!(check, ft.into());
         }
 
-        for (ft, check) in [(FileType::File, 0u32),
+        for (ft, check) in [
+            (FileType::File, 0u32),
             (FileType::Dir, 0x80000000),
             (FileType::Append, 0x40000000),
             (FileType::Excl, 0x20000000),
@@ -352,7 +355,8 @@ mod tests {
             (FileType::Link, 0x02000000),
             (FileType::Device, 0x00800000),
             (FileType::NamedPipe, 0x00200000),
-            (FileType::Socket, 0x00100000)] {
+            (FileType::Socket, 0x00100000),
+        ] {
             let ftu: u32 = ft.into();
             assert_eq!(check, ftu);
             assert_eq!(ft, ftu.into());
