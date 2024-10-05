@@ -40,37 +40,36 @@ pub use state::{
     FileHandle, FileHandles, FileHandlesError, Request, Requests, RequestsError, Session,
 };
 
-///
 type JoinSet = tokio::task::JoinSet<()>;
 
-///
 type Result<RetT> = std::result::Result<RetT, ServerError>;
 
-///
+/// Possible Errors that may be returned.
 #[derive(Debug)]
 pub enum ServerError {
-    ///
+    /// Failed to come to an agreement with the client about the 9P
+    /// protocol to use.
     FailedToNegotiate,
 
-    ///
+    /// No filesystem by that name is known by this server.
     NoSuchFilesystem,
 
-    ///
+    /// Something happened below us. Dunno! Good luck!
     IoError(std::io::Error),
 
-    ///
+    /// 9p T Error type
     TError(TError),
 
-    ///
+    /// 9p R Error type
     RError(RError),
 
-    ///
+    /// Error with state management of incoming and outgoing requests.
     RequestsError(RequestsError),
 
-    ///
+    /// Error with the file handles management.
     FileHandlesError(FileHandlesError),
 
-    ///
+    /// Error with an underlying File.
     FileError(FileError),
 }
 

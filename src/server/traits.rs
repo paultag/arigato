@@ -21,7 +21,8 @@
 use crate::raw::{FileType, OpenMode, Qid, Stat};
 use std::future::Future;
 
-///
+/// 9P Error, numerical code and description as defined by the
+/// 9P UNIX variant.
 #[derive(Debug)]
 pub struct FileError(pub u32, pub String);
 
@@ -34,9 +35,9 @@ impl From<std::io::Error> for FileError {
     }
 }
 
-///
+/// Handle to an open file.
 pub trait OpenFile {
-    ///
+    /// Negotiated iounit.
     fn iounit(&self) -> u32;
 
     /// Read the file at some particular offset.
@@ -54,12 +55,13 @@ pub trait OpenFile {
     ) -> impl Future<Output = FileResult<u32>> + Send;
 }
 
-///
+/// Trait to be implemented by a File returned by some Filesystem.
 pub trait File
 where
     Self: Sized,
 {
-    ///
+    /// Type used to store state of an open File being accessed by
+    /// the remote.
     type OpenFile: OpenFile + Send;
 
     /// Get metadata about the file itself.
@@ -68,7 +70,9 @@ where
     /// Write stat back to the file
     fn wstat(&mut self, s: &Stat) -> impl Future<Output = FileResult<()>> + Send;
 
-    /// Walk will navigate
+    /// Walk will navigate from self (must be a directory) to some specific
+    /// path in relation to `self`. This returns the ending file (if no Error
+    /// state was hit), as well as any files traversed along the way.
     fn walk(
         &self,
         path: &[&str],
@@ -87,25 +91,27 @@ where
         extension: &str,
     ) -> impl Future<Output = FileResult<Self>> + Send;
 
-    /// Open
+    /// Open the file.
     fn open(&mut self, mode: OpenMode) -> impl Future<Output = FileResult<Self::OpenFile>> + Send;
 
     /// sync (not async)
     fn qid(&self) -> Qid;
 }
 
-///
+/// Result used by the File trait.
 pub type FileResult<RetT> = Result<RetT, FileError>;
 
-///
+/// Result used by the Filesystem trait.
 pub type FilesystemResult<RetT> = Result<RetT, FileError>;
 
-///
+/// Filesystem represents a collection of files which may be accessed
+/// by some peer.
 pub trait Filesystem {
-    ///
+    /// Underlying File type to be returned when a file is accessed.
     type File: File + Send + 'static;
 
-    ///
+    /// Create a new connection to this filesystem for some peer,
+    /// returning an open file descriptor at the root directory.
     fn attach(
         &self,
         aname: &str,

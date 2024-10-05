@@ -137,22 +137,22 @@ where
     }
 }
 
-///
+/// Request type -- opaque handle containing a T type message.
 pub struct Request {
     pub(super) t: T,
 }
 
-///
+/// Possible Errors from the state code when resolving a tag during a session.
 #[derive(Debug)]
 pub enum RequestsError {
-    ///
+    /// That tag already exists and is still active.
     TagAlreadyExists,
 
-    ///
+    /// No such tag exists by that name anymore.
     NoSuchTag,
 }
 
-///
+/// All pending requests known to the server.
 pub struct Requests {
     requests: HashMap<Tag, Request>,
 }
@@ -164,23 +164,23 @@ impl Default for Requests {
 }
 
 impl Requests {
-    ///
+    /// Create a new Requests state tracking object.
     pub fn new() -> Self {
         Self {
             requests: HashMap::new(),
         }
     }
 
-    ///
+    /// Insert a new T message under the tag T.
     pub fn insert(&mut self, tag: Tag, t: T) -> Result<(), RequestsError> {
-        if self.requests.get(&tag).is_some() {
+        if self.requests.contains_key(&tag) {
             return Err(RequestsError::TagAlreadyExists);
         }
         self.requests.insert(tag, Request { t });
         Ok(())
     }
 
-    ///
+    /// Remove the request known to us by the provided Tag.
     pub fn remove(&mut self, tag: Tag) -> Result<Request, RequestsError> {
         match self.requests.remove(&tag) {
             Some(req) => Ok(req),
@@ -188,7 +188,7 @@ impl Requests {
         }
     }
 
-    ///
+    /// Get the request known to us by the provided Tag.
     pub fn get(&self, tag: Tag) -> Result<&Request, RequestsError> {
         match self.requests.get(&tag) {
             Some(req) => Ok(req),
