@@ -27,51 +27,65 @@ use std::{
 /// Stat
 #[derive(PartialEq, Debug, Clone)]
 pub struct Stat {
-    ///
+    /// Type
     pub ty: u16,
-    ///
+
+    /// Device
     pub dev: u32,
-    ///
+
+    /// QID of the File
     pub qid: Qid,
-    ///
+
+    /// File mode
     pub mode: u32,
-    ///
+
+    /// access time
     pub atime: u32,
-    ///
+
+    /// modified time
     pub mtime: u32,
-    ///
+
+    /// file length
     pub length: u64,
-    ///
+
+    /// name of the file
     pub name: String,
-    ///
+
+    /// user id that owns the file
     pub uid: String,
-    ///
+
+    /// group id that owns the file
     pub gid: String,
-    ///
+
+    /// user id of the last person to modify the file.
     pub muid: String,
-    ///
+
+    /// Extra information on the file (like link target)
     pub extension: String,
-    ///
+
+    /// numerical user id
     pub nuid: u32,
-    ///
+
+    /// numerical group id
     pub ngid: u32,
-    ///
+
+    /// numerical last modifier id
     pub nmuid: u32,
 }
 
-///
+/// Error that can take place during a stat call.
 #[derive(Debug)]
 pub enum StatError {
-    ///
+    /// File is too large.
     TooLarge,
 
-    ///
+    /// Underlying i/o error.
     IoError(std::io::Error),
 
-    ///
+    /// Error turning bytes into a string
     StringError(StringError),
 
-    ///
+    /// Error slicing.
     SliceError(SliceError<std::io::Error>),
 }
 
@@ -103,7 +117,7 @@ impl From<TryFromIntError> for StatError {
     }
 }
 
-///
+/// Builder-pattern to create a new [Stat].
 #[derive(Debug, Clone)]
 pub struct StatBuilder {
     ty: u16,
@@ -145,72 +159,73 @@ impl StatBuilder {
         }
     }
 
-    ///
+    /// Set the mode of the file.
     pub fn with_mode(mut self, mode: u32) -> Self {
         self.mode = mode;
         self
     }
 
-    ///
+    /// Set the atime of the file.
     pub fn with_atime(mut self, atime: u32) -> Self {
         self.atime = atime;
         self
     }
 
-    ///
+    /// Set the mtime of the file.
     pub fn with_mtime(mut self, mtime: u32) -> Self {
         self.mtime = mtime;
         self
     }
 
-    ///
+    /// Set the size of the file.
     pub fn with_size(mut self, size: u64) -> Self {
         self.length = size;
         self
     }
 
-    ///
+    /// Set the owner uid of the file.
     pub fn with_uid(mut self, uid: &str) -> Self {
         self.uid = uid.to_owned();
         self
     }
 
-    ///
+    /// Set the owner gid of the file.
     pub fn with_gid(mut self, gid: &str) -> Self {
         self.gid = gid.to_owned();
         self
     }
 
-    ///
+    /// Set the extension of a file.
     pub fn with_extension(mut self, ext: &str) -> Self {
         self.extension = ext.to_owned();
         self
     }
 
-    ///
+    /// Set the uid of the last one to modify the file.
     pub fn with_muid(mut self, muid: &str) -> Self {
         self.muid = muid.to_owned();
         self
     }
 
-    ///
+    /// Set the numerical uid of the file's owner.
     pub fn with_nuid(mut self, nuid: u32) -> Self {
         self.nuid = nuid;
         self
     }
-    ///
+
+    /// Set the numerical gid of the file's group
     pub fn with_ngid(mut self, ngid: u32) -> Self {
         self.ngid = ngid;
         self
     }
 
-    ///
+    /// Set the numerical uid of the file's last modifier.
     pub fn with_nmuid(mut self, nmuid: u32) -> Self {
         self.nmuid = nmuid;
         self
     }
 
-    ///
+    /// Build a [Stat].
     pub fn build(self) -> Stat {
         let Self {
             ty,
@@ -248,6 +263,7 @@ impl Stat {
     }
 
     /// Create a new Stat object
+    #[allow(clippy::too_many_arguments)]
     fn new(
         ty: u16,
         dev: u32,

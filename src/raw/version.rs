@@ -21,16 +21,16 @@
 use super::{Dehydrate, Hydrate, StringError};
 use std::{io::Cursor, str::FromStr};
 
-///
+/// Error decoding a Version
 #[derive(Debug)]
 pub enum VersionError {
-    ///
+    /// 9P version is mismatched.
     MismatchedId,
 
-    ///
+    /// 9P version variant is mismatched
     MismatchedVariant,
 
-    ///
+    /// Error turning bytes to unicode.
     StringError(StringError),
 }
 
@@ -63,7 +63,7 @@ impl std::fmt::Display for Version {
 impl FromStr for Version {
     type Err = VersionError;
 
-    ///
+    /// Create a new [Version] from a String.
     fn from_str(v: &str) -> Result<Version, VersionError> {
         // better validation logic here.
         match v.split_once('.') {
@@ -80,7 +80,7 @@ impl FromStr for Version {
 }
 
 impl Version {
-    ///
+    /// try to negotiate with the peer on a 9p protocol.
     pub fn try_negotiate(&self, other: &Version) -> Result<Version, VersionError> {
         if self.id != other.id {
             return Err(VersionError::MismatchedId);

@@ -25,16 +25,16 @@ use std::{
     str::Utf8Error,
 };
 
-///
+/// Error when taking bytes and turning it into a String.
 #[derive(Debug)]
 pub enum StringError {
-    ///
+    /// String is larger than the configured msize.
     TooLarge,
 
-    ///
+    /// underlying I/O error.
     IoError(Error),
 
-    ///
+    /// Issue turning bytes into unicode.
     UnicodeError(Utf8Error),
 }
 

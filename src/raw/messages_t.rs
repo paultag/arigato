@@ -28,22 +28,22 @@ use std::{
     num::TryFromIntError,
 };
 
-///
+/// T errors that may be encountered.
 #[derive(Debug)]
 pub enum TError {
-    ///
+    /// Message was too long for the configured msize.
     TooLong,
 
-    ///
+    /// Underlying i/o error (good luck)
     IoError(Error),
 
-    ///
+    /// Error turning bytes into a real unicode string.
     StringError(StringError),
 
-    ///
+    /// Error negotiating the 9p version.
     VersionError(VersionError),
 
-    ///
+    /// Error getting information about a file.
     StatError(StatError),
 }
 
@@ -110,48 +110,48 @@ pub enum T {
     /// Unknown is constructed when the Type is unknown or unexpected.
     Unknown(Type, Tag, Vec<u8>),
 
-    ///
+    /// Version of the 9p protocol that is understood.
     Version(Tag, u32, Version),
 
-    ///
+    /// Request to begin Authentication.
     Auth(Tag, Fid, String, String, u32),
 
-    ///
+    /// Attach to a filesystem by name.
     Attach(Tag, Fid, Fid, String, String, u32),
 
-    ///
+    /// Flush (purge) the outstanding request.
     Flush(Tag, Tag),
 
-    ///
+    /// Walk from a file or directory to the specified file or directory.
     Walk(Tag, Fid, Fid, Vec<String>),
 
-    ///
+    /// Open a File.
     Open(Tag, Fid, OpenMode),
 
-    ///
+    /// Create a file.
     Create(Tag, Fid, String, u32, u8, String),
 
-    ///
+    /// Read bytes from a file.
     Read(Tag, Fid, u64, u32),
 
-    ///
+    /// Write bytes to a file.
     Write(Tag, Fid, u64, Vec<u8>),
 
-    ///
+    /// Close a file descriptor.
     Clunk(Tag, Fid),
 
-    ///
+    /// Remove the file referenced by the file descriptor.
     Remove(Tag, Fid),
 
-    ///
+    /// Get information about the file descriptor.
     Stat(Tag, Fid),
 
-    ///
+    /// Write state information to the provided file descriptor.
     WStat(Tag, Fid, Stat),
 }
 
 impl T {
-    ///
+    /// Return the `tag` for this provided message.
     pub fn tag(&self) -> Tag {
         match self {
             T::Version(tag, _, _) => *tag,

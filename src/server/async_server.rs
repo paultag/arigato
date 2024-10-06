@@ -29,7 +29,7 @@ use crate::{
 use std::{collections::HashMap, net::SocketAddr, sync::Arc};
 use tokio::{net::TcpListener, sync::Mutex};
 
-///
+/// `tokio` async 9p server.
 pub struct AsyncServer<FilesystemT>
 where
     FilesystemT: Filesystem,
@@ -42,7 +42,8 @@ where
     filesystems: Arc<Mutex<HashMap<String, FilesystemT>>>,
 }
 
-///
+/// Server context about the connected peer, instantiated Filesystem,
+/// and active state (requests, file descriptors).
 pub struct Context<FilesystemT>
 where
     FilesystemT: Filesystem,
@@ -64,12 +65,12 @@ where
     FilesystemT: Send,
     FilesystemT: 'static,
 {
-    ///
+    /// Create a new [AsyncServerBuilder] to construct a new [AsyncServer].
     pub fn builder() -> AsyncServerBuilder<FilesystemT> {
         AsyncServerBuilder::new()
     }
 
-    ///
+    /// Listen on the configured port, and serve 9p requests.
     pub async fn serve(&self) -> Result<()> {
         let mut join_set = JoinSet::new();
 
@@ -112,7 +113,7 @@ where
     }
 }
 
-///
+/// Builder-pattern struct to create an [AsyncServer].
 pub struct AsyncServerBuilder<FilesystemT>
 where
     FilesystemT: Filesystem,
@@ -130,7 +131,7 @@ where
     FilesystemT: Send,
     FilesystemT: 'static,
 {
-    ///
+    /// Create a new Builder-pattern struct to create an [AsyncServer].
     fn new() -> Self {
         Self {
             filesystems: HashMap::new(),
@@ -139,25 +140,27 @@ where
         }
     }
 
-    ///
+    /// Set the configured 9p msize (maximum size, in bytes, to use
+    /// for a single packet).
     pub fn with_msize(mut self, msize: u32) -> Self {
         self.msize = Some(msize);
         self
     }
 
-    ///
+    /// Set the IP address and port to listen on.
     pub fn with_tcp_listen_address(mut self, addr: &str) -> Self {
         self.tcp_listen_address = Some(addr.to_owned());
         self
     }
 
-    ///
+    /// Use the provided Filesystem for the specified filesystem name
+    /// (aname).
     pub fn with_filesystem(mut self, name: &str, fs: FilesystemT) -> Self {
         self.filesystems.insert(name.to_owned(), fs);
         self
     }
 
-    ///
+    /// Build an [AsyncServer].
     pub async fn build(self) -> Result<AsyncServer<FilesystemT>> {
         let listen_address = self.tcp_listen_address.unwrap();
         let listener = TcpListener::bind(listen_address).await?;

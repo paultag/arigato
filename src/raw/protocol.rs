@@ -32,7 +32,7 @@ pub type Tag = u16;
 /// Client-defined file descriptor.
 pub type Fid = u32;
 
-///
+/// Mode to oepn the file with.
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct OpenMode(u8);
 
@@ -73,20 +73,20 @@ where
     }
 }
 
-///
+/// Direction for I/O operations -- Read/Write/ReadWrite.
 pub enum IoDirection {
-    ///
+    /// Read from the specified file.
     Read,
 
-    ///
+    /// Write to the specified file.
     Write,
 
-    ///
+    /// Read and write to the specified file.
     ReadWrite,
 }
 
 impl OpenMode {
-    ///
+    /// File direction (read, write, etc).
     pub const fn direction(&self) -> IoDirection {
         match self.0 % 0x04 {
             0 => IoDirection::Read,
@@ -113,41 +113,41 @@ impl OpenMode {
     }
 }
 
-///
+/// Type of file.
 #[non_exhaustive]
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum FileType {
-    ///
+    /// Directory.
     Dir,
 
-    ///
+    /// Append on write operations.
     Append,
 
-    ///
+    /// Exclusive control of a file.
     Excl,
 
-    ///
+    /// Authentication file.
     Auth,
 
-    ///
+    /// Tempfile.
     Tmp,
 
-    ///
+    /// Symlink.
     Link,
 
-    ///
+    /// Device node
     Device,
 
-    ///
+    /// UNIX named pipe
     NamedPipe,
 
-    ///
+    /// UNIX socket
     Socket,
 
-    ///
+    /// Plain ole' file.
     File,
 
-    ///
+    /// Some other filetype not understood.
     Unknown(u8),
 }
 

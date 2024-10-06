@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE. }}}
 
-///
+/// Generate a file enum based on a number of concrete File types.
 #[macro_export]
 macro_rules! gen_file_enum {
     (enum $name:ident {

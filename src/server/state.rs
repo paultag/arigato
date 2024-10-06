@@ -108,7 +108,7 @@ where
             of: None,
         };
 
-        if self.handles.get(&fid).is_some() {
+        if self.handles.contains_key(&fid) {
             return Err(FileHandlesError::FidAlreadyExists);
         }
         self.handles.insert(fid, fh);

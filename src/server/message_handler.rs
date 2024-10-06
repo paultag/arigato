@@ -24,11 +24,9 @@ use crate::{
     server::{File, Filesystem, OpenFile, ServerError, Session},
 };
 
-///
-pub async fn message_handler<'a, FilesystemT>(
-    mctx: MessageContext<'a, FilesystemT>,
-    t: T,
-) -> Result<R>
+/// common method to handle the processing of an incoming message of type T (9p
+/// T type), returning an R type (9p R type).
+pub async fn message_handler<FilesystemT>(mctx: MessageContext<'_, FilesystemT>, t: T) -> Result<R>
 where
     FilesystemT: Filesystem,
     FilesystemT: Send,

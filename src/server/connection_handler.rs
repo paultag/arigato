@@ -75,7 +75,7 @@ async fn handshake(
     }
 }
 
-///
+/// Context about the connected session.
 pub struct MessageContext<'a, FilesystemT>
 where
     FilesystemT: Filesystem,
@@ -89,7 +89,8 @@ where
     pub(super) msize: u32,
 }
 
-///
+/// Handler to manage the reading/writing of R/T messages, and dispatch
+/// to internal methods after handshake, etc.
 pub async fn connection_handler<FilesystemT>(
     ctx: Context<FilesystemT>,
     mut rw: RWriter,

@@ -21,10 +21,10 @@
 //! This module
 
 mod aio;
+mod async_server;
 mod connection_handler;
 mod macros;
 mod message_handler;
-mod server;
 mod state;
 mod traits;
 
@@ -33,9 +33,9 @@ pub use traits::{File, FileError, FileResult, Filesystem, OpenFile};
 
 use crate::raw::{RError, TError};
 
+pub use async_server::{AsyncServer, AsyncServerBuilder, Context};
 pub use connection_handler::{connection_handler, MessageContext};
 pub use message_handler::message_handler;
-pub use server::{AsyncServer, AsyncServerBuilder, Context};
 pub use state::{
     FileHandle, FileHandles, FileHandlesError, Request, Requests, RequestsError, Session,
 };

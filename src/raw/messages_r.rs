@@ -27,19 +27,19 @@ use std::{
     num::TryFromIntError,
 };
 
-///
+/// R Errors that may be returned.
 #[derive(Debug)]
 pub enum RError {
-    ///
+    /// Message is too long for the provided msize.
     TooLong,
 
-    ///
+    /// Underlying i/o error (good luck).
     IoError(Error),
 
-    ///
+    /// 9p Negotiation issue.
     VersionError(VersionError),
 
-    ///
+    /// Error decoding the string to unicode.
     StringError(StringError),
 }
 

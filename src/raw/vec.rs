@@ -25,16 +25,16 @@ use std::{
     num::TryFromIntError,
 };
 
-///
+/// Error decoding a Slice.
 #[derive(Debug)]
 pub enum SliceError<T> {
-    ///
+    /// Larger than the configured msize.
     TooLong,
 
-    ///
+    /// Underlying i/o error.
     IoError(std::io::Error),
 
-    ///
+    /// Some inner error T.
     Inner(T),
 }
 
