@@ -33,3 +33,5 @@ jobs:
           RUSTFLAGS: "-D warnings --cfg tokio_unstable"
       - name: Cargo check --release
         run: cargo check --release
+        env:
+          RUSTFLAGS: "-D warnings --cfg tokio_unstable"
