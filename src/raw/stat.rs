@@ -263,6 +263,8 @@ impl Stat {
     }
 
     /// Create a new Stat object
+    ///
+    /// This is an internal method only used by the [StatBuilder].
     #[allow(clippy::too_many_arguments)]
     fn new(
         ty: u16,
