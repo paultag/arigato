@@ -19,8 +19,9 @@
 // THE SOFTWARE. }}}
 
 use super::{
+    JoinSet, Result,
     aio::{RWriter, TReader},
-    connection_handler, JoinSet, Result,
+    connection_handler,
 };
 use crate::{
     raw::Version,

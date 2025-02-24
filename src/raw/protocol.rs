@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE. }}}
 
-use super::{dehydrate, Dehydrate, Hydrate};
+use super::{Dehydrate, Hydrate, dehydrate};
 use std::io::Cursor;
 
 /// Type represents the underlying object type. This is usually abstracted

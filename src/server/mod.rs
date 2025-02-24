@@ -34,7 +34,7 @@ pub use traits::{File, FileError, FileResult, Filesystem, OpenFile};
 use crate::raw::{RError, TError};
 
 pub use async_server::{AsyncServer, AsyncServerBuilder, Context};
-pub use connection_handler::{connection_handler, MessageContext};
+pub use connection_handler::{MessageContext, connection_handler};
 pub use message_handler::message_handler;
 pub use state::{
     FileHandle, FileHandles, FileHandlesError, Request, Requests, RequestsError, Session,

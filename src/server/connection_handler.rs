@@ -19,11 +19,12 @@
 // THE SOFTWARE. }}}
 
 use super::{
+    Context, Result, ServerError,
     aio::{RWriter, TReader},
-    message_handler, Context, Result, ServerError,
+    message_handler,
 };
 use crate::{
-    raw::{Version, R, T},
+    raw::{R, T, Version},
     server::{FileError, FileHandles, Filesystem, Requests},
 };
 use std::{collections::HashMap, net::SocketAddr, sync::Arc};

@@ -79,7 +79,9 @@ where
             Ok(R::Flush(tag))
         }
         T::Walk(tag, fid, newfid, path) => {
-            tracing::debug!("walk request (peer={peer}, tag={tag} from fid={fid}, store to newfid={newfid}, path={path:?})");
+            tracing::debug!(
+                "walk request (peer={peer}, tag={tag} from fid={fid}, store to newfid={newfid}, path={path:?})"
+            );
             {
                 let handle = handles.get(fid)?;
                 let session = handle.session.clone();
@@ -164,7 +166,7 @@ where
             // requests :)
             let mut buf = vec![0u8; size.min(msize) as usize];
             match &mut handle.of {
-                Some(ref mut of) => {
+                Some(of) => {
                     let n = of.read_at(&mut buf, offset).await? as usize;
                     buf.resize(n, 0u8);
                     Ok(R::Read(tag, buf))
@@ -180,7 +182,7 @@ where
             let handle = handles.get_mut(fid)?;
 
             match &mut handle.of {
-                Some(ref mut of) => {
+                Some(of) => {
                     let n = of.write_at(&mut buf, offset).await?;
                     Ok(R::Write(tag, n))
                 }

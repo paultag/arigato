@@ -19,8 +19,8 @@
 // THE SOFTWARE. }}}
 
 use super::{
-    dehydrate, Dehydrate, Hydrate, Qid, SliceError, Stat, StatError, StringError, Tag, Type,
-    Version, VersionError,
+    Dehydrate, Hydrate, Qid, SliceError, Stat, StatError, StringError, Tag, Type, Version,
+    VersionError, dehydrate,
 };
 use std::{
     io::{Cursor, Error, Read, Write},
@@ -275,8 +275,8 @@ impl Dehydrate for R {
 
 #[cfg(test)]
 mod tests {
-    use super::{Dehydrate, Hydrate, Qid, Stat, R};
-    use crate::raw::{test_round_trips, FileType};
+    use super::{Dehydrate, Hydrate, Qid, R, Stat};
+    use crate::raw::{FileType, test_round_trips};
     use std::io::Cursor;
 
     test_round_trips!(

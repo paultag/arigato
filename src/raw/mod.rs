@@ -30,8 +30,8 @@ mod string;
 mod vec;
 mod version;
 
-pub use messages_r::{RError, R};
-pub use messages_t::{TError, T};
+pub use messages_r::{R, RError};
+pub use messages_t::{T, TError};
 pub use protocol::{Fid, FileType, IoDirection, OpenMode, Qid, Tag, Type};
 pub use stat::{Stat, StatError};
 pub use string::StringError;

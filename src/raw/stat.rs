@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE. }}}
 
-use super::{dehydrate, Dehydrate, Hydrate, Qid, SliceError, StringError};
+use super::{Dehydrate, Hydrate, Qid, SliceError, StringError, dehydrate};
 use std::{
     io::{Cursor, Read},
     num::TryFromIntError,
@@ -373,7 +373,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::{
-        super::{test_round_trip, FileType},
+        super::{FileType, test_round_trip},
         Dehydrate, Hydrate, Qid, Stat,
     };
     use std::io::Cursor;

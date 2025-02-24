@@ -19,7 +19,7 @@
 // THE SOFTWARE. }}}
 
 use crate::{
-    raw::{Fid, Tag, T},
+    raw::{Fid, T, Tag},
     server::File,
 };
 use std::collections::HashMap;

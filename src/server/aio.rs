@@ -20,7 +20,7 @@
 
 //! Async i/o
 
-use crate::raw::{Dehydrate, Hydrate, RError, TError, R, T};
+use crate::raw::{Dehydrate, Hydrate, R, RError, T, TError};
 use std::{io::Cursor, pin::Pin};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
