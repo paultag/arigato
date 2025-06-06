@@ -133,7 +133,7 @@ impl File {
     /// Return a qid for a file off the filesystem metadata.
     fn qid_for_file(meta: &Metadata) -> Qid {
         let ty: FileType = meta.clone().into();
-        Qid::new(ty.clone(), meta.mtime().try_into().unwrap_or(0), meta.ino())
+        Qid::new(ty, meta.mtime().try_into().unwrap_or(0), meta.ino())
     }
 
     /// Create a new File, which can be something like a directory, file, link
@@ -162,7 +162,7 @@ impl File {
         }
 
         let mut ent = Cursor::new(vec![]);
-        for dirent in std::fs::read_dir(&self.path)?.into_iter() {
+        for dirent in std::fs::read_dir(&self.path)? {
             let stat = Self::new(self.filesystem.clone(), &dirent?.path())?
                 .stat()
                 .await?;
@@ -206,11 +206,7 @@ impl FileTrait for File {
 
         let meta = self.filesystem.meta(&self.path)?;
         let mut sb = Stat::builder(
-            self.path
-                .file_name()
-                .map(|x| x.to_str())
-                .flatten()
-                .unwrap_or(""),
+            self.path.file_name().and_then(|x| x.to_str()).unwrap_or(""),
             qid,
         )
         .with_mtime(meta.mtime().try_into().unwrap_or(0))
@@ -221,18 +217,15 @@ impl FileTrait for File {
         .with_nmuid(meta.uid())
         .with_size(meta.size());
 
-        match ty {
-            FileType::Link => {
-                sb = sb.with_extension(
-                    &std::fs::read_link(&self.path)?
-                        .into_os_string()
-                        .into_string()
-                        // best I can do is EBADMSG here; not sure how else
-                        // to spell "your fs is not unicode"
-                        .map_err(|_| FileError(74, "EBADMSG".to_owned()))?,
-                );
-            }
-            _ => {}
+        if ty == FileType::Link {
+            sb = sb.with_extension(
+                &std::fs::read_link(&self.path)?
+                    .into_os_string()
+                    .into_string()
+                    // best I can do is EBADMSG here; not sure how else
+                    // to spell "your fs is not unicode"
+                    .map_err(|_| FileError(74, "EBADMSG".to_owned()))?,
+            );
         }
 
         Ok(sb.build())
@@ -298,7 +291,7 @@ impl FilesystemTrait for FileServer {
     type File = File;
 
     async fn attach(&self, _: &str, _: &str, _: u32) -> FileResult<Self::File> {
-        Ok(File::new(Arc::new(self.clone()), &self.root)?)
+        File::new(Arc::new(self.clone()), &self.root)
     }
 }
 

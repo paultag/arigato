@@ -23,7 +23,7 @@
 
 use arigato::server::AsyncServer;
 use std::{path::PathBuf, str::FromStr};
-use tracing_subscriber::{fmt::format::FmtSpan, FmtSubscriber};
+use tracing_subscriber::{FmtSubscriber, fmt::format::FmtSpan};
 
 mod clean;
 mod file_server;
