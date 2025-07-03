@@ -63,8 +63,7 @@ async fn handshake(
                         });
                     }
                     Err(e) => {
-                        rw.send(R::Error(tag, format!("{:?}", e), 0xFFFFFFFF))
-                            .await?;
+                        rw.send(R::Error(tag, format!("{e:?}"), 0xFFFFFFFF)).await?;
                         return Err(ServerError::FailedToNegotiate);
                     }
                 };
@@ -140,7 +139,7 @@ where
                 Ok(r) => r,
                 Err(err) => match err {
                     ServerError::FileError(FileError(errno, desc)) => R::Error(tag, desc, errno),
-                    _ => R::Error(tag, format!("{:?}", err), 0xFFFFFFFF),
+                    _ => R::Error(tag, format!("{err:?}"), 0xFFFFFFFF),
                 },
             };
 

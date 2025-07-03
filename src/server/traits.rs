@@ -29,7 +29,7 @@ pub struct FileError(pub u32, pub String);
 impl From<std::io::Error> for FileError {
     fn from(e: std::io::Error) -> Self {
         match e.raw_os_error() {
-            Some(ose) => FileError(ose as u32, format!("{:?}", e)),
+            Some(ose) => FileError(ose as u32, format!("{e:?}")),
             None => FileError(0, "".to_owned()),
         }
     }
